@@ -24,19 +24,19 @@ public class BookDaoJDBC implements BookDao
             {
                 success = true;
             }
-            database.close();
+            database.close(true, true, false);
         }
         return success;
     }
 
-    private List<Book> executaConsulta(String sql)
+    private List<Book> executeQuery(String query)
     {
         List<Book> books = new ArrayList<>();
         if(database.connect())
         {
             try
             {
-                database.setResultSet(sql);
+                database.setResultSet(query);
                 while (database.getResultSet().next())
                 {
                     Integer id = database.getResultSet().getInt("id");
@@ -52,7 +52,7 @@ public class BookDaoJDBC implements BookDao
                 e.printStackTrace();
             }finally
             {
-                database.close();
+                database.close(true, false, true);
             }
         }
         return books;
@@ -82,19 +82,19 @@ public class BookDaoJDBC implements BookDao
     @Override
     public List<Book> all()
     {
-        return executaConsulta("select * from books");
+        return executeQuery("select * from books");
     }
 
     @Override
     public List<Book> search(String field, String value)
     {
-        return executaConsulta("select * from books where "+field+" like '%"+value+"%'");
+        return executeQuery("select * from books where "+field+" like '%"+value+"%'");
     }
 
     @Override
     public Book getByID(int id)
     {
-        List<Book> books = executaConsulta("select * from books where id="+id);
+        List<Book> books = executeQuery("select * from books where id="+id);
         if (books.size()>0) {
             return books.get(0);
         }

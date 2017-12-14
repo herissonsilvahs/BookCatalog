@@ -61,30 +61,6 @@ public class MainWindow extends Window implements ActionListener
 
     }
 
-    private void save()
-    {
-        Vector bookVector;
-
-        bookVector = defaultTableModel.getDataVector();
-
-        for(int i = 0;i < bookVector.size();i++)
-        {
-            try {
-                Vector vector = (Vector)bookVector.get(i);
-                Integer id = (Integer)vector.get(0);
-                String title = (String)vector.get(1);
-                String author = (String)vector.get(2);
-                String genre = (String)vector.get(3);
-                Integer year = Integer.parseInt((String)vector.get(4));
-                String description = (String)vector.get(5);
-                bookDao.update(new Book(id, title, year, description, author, genre));
-            }catch (ClassCastException cce)
-            {
-                //System.out.println("Nao consegui solucionar erro: " + cce.getMessage());
-            }
-        }
-    }
-
     private void drawListBooks()
     {
         jPanelTable = new JPanel();
@@ -109,6 +85,30 @@ public class MainWindow extends Window implements ActionListener
                     bookList.get(i).getGenre(), bookList.get(i).getYear(), bookList.get(i).getDescription()});
 
         add(scrollPane);
+    }
+
+    private void save()
+    {
+        Vector bookVector;
+
+        bookVector = defaultTableModel.getDataVector();
+
+        for(int i = 0;i < bookVector.size();i++)
+        {
+            try {
+                Vector vector = (Vector)bookVector.get(i);
+                Integer id = (Integer)vector.get(0);
+                String title = (String)vector.get(1);
+                String author = (String)vector.get(2);
+                String genre = (String)vector.get(3);
+                Integer year = Integer.parseInt((String)vector.get(4));
+                String description = (String)vector.get(5);
+                bookDao.update(new Book(id, title, year, description, author, genre));
+            }catch (ClassCastException cce)
+            {
+                //System.out.println("Nao consegui solucionar erro: " + cce.getMessage());
+            }
+        }
     }
 
     @Override

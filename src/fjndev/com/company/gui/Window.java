@@ -1,7 +1,5 @@
 package fjndev.com.company.gui;
 
-import napkin.NapkinLookAndFeel;
-
 import javax.swing.*;
 import java.awt.*;
 
