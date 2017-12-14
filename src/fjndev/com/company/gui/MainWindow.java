@@ -80,7 +80,7 @@ public class MainWindow extends Window implements ActionListener
                 bookDao.update(new Book(id, title, year, description, author, genre));
             }catch (ClassCastException cce)
             {
-                System.out.println("Nao consegui solucionar erro: " + cce.getMessage());
+                //System.out.println("Nao consegui solucionar erro: " + cce.getMessage());
             }
         }
     }
