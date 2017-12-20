@@ -95,7 +95,18 @@ public class BookDaoJDBC implements BookDao
     public Book getByID(int id)
     {
         List<Book> books = executeQuery("select * from books where id="+id);
-        if (books.size()>0) {
+        if (books.size()>0)
+        {
+            return books.get(0);
+        }
+        return null;
+    }
+
+    public Book getLastRegistry()
+    {
+        List<Book> books = executeQuery("select * from books order by id desc limit 1");
+        if (books.size()>0)
+        {
             return books.get(0);
         }
         return null;

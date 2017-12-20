@@ -33,7 +33,7 @@ public class MainWindow extends Window implements ActionListener
         title = "Janela Principal";
         setWindow();
         drawMenu();
-        drawListBooks();
+        drawTableBooks();
         drawWindow();
     }
 
@@ -61,7 +61,7 @@ public class MainWindow extends Window implements ActionListener
 
     }
 
-    private void drawListBooks()
+    private void drawTableBooks()
     {
         jPanelTable = new JPanel();
         jPanelTable.setLayout(new GridLayout());
@@ -87,16 +87,27 @@ public class MainWindow extends Window implements ActionListener
         add(scrollPane);
     }
 
+    public void updateTable()
+    {
+        Book book = bookDao.getLastRegistry();
+
+        defaultTableModel.addRow(new Object[]{book.getId(), book.getTitle(), book.getAuthor(),
+                    book.getGenre(), book.getYear(), book.getDescription()});
+
+        add(scrollPane);
+    }
+
     private void save()
     {
         Vector bookVector;
+        Vector vector;
 
         bookVector = defaultTableModel.getDataVector();
-
-        for(int i = 0;i < bookVector.size();i++)
+        try
         {
-            try {
-                Vector vector = (Vector)bookVector.get(i);
+            for(int i = 0;i < bookVector.size();i++)
+            {
+                vector = (Vector)bookVector.get(i);
                 Integer id = (Integer)vector.get(0);
                 String title = (String)vector.get(1);
                 String author = (String)vector.get(2);
@@ -104,10 +115,14 @@ public class MainWindow extends Window implements ActionListener
                 Integer year = Integer.parseInt((String)vector.get(4));
                 String description = (String)vector.get(5);
                 bookDao.update(new Book(id, title, year, description, author, genre));
-            }catch (ClassCastException cce)
-            {
-                //System.out.println("Nao consegui solucionar erro: " + cce.getMessage());
+
             }
+        }catch (ClassCastException cce)
+        {
+            //System.out.println("Nao consegui solucionar erro: " + cce.getMessage());
+        }finally
+        {
+            JOptionPane.showMessageDialog(this,"Tabela atualizada");
         }
     }
 
@@ -118,6 +133,8 @@ public class MainWindow extends Window implements ActionListener
         {
             if (e.getSource() == newRegistry)
             {
+                jPanelTable = new JPanel();
+                add(jPanelTable);
                 window = new NewBookWindow(this);
             }
 

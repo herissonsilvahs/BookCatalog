@@ -18,4 +18,5 @@ public interface BookDao
     List<Book> search(String field, String value);
 
     Book getByID(int id);
+    Book getLastRegistry();
 }

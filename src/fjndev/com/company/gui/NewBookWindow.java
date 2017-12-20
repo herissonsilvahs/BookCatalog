@@ -20,9 +20,11 @@ public class NewBookWindow extends Window implements ActionListener
     private JButton jButtonSave;
     private JButton jButtonCancel;
     private BookDao book;
+    MainWindow window;
 
     public NewBookWindow(MainWindow window)
     {
+        this.window = window;
         title = "Cadastro de Livro";
         close = DISPOSE_ON_CLOSE;
         width = 400;
@@ -81,7 +83,10 @@ public class NewBookWindow extends Window implements ActionListener
                 boolean ok = book.insert(new Book(jTxtTitle.getText(),Integer.parseInt(jTxtYear.getText()),
                         jTxtDescription.getText(), jTxtAuthor.getText(), jTxtGenre.getText()));
                 if (ok)
+                {
+                    window.updateTable();
                     dispose();
+                }
             }
 
             if (e.getSource() == jButtonCancel)
